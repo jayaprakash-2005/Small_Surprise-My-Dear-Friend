@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🎉 Birthday Surprise 🎂</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    background: linear-gradient(135deg,#ff5acd,#6a5cff,#00e5ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:white;
+}
+
+/* FLIP CARD */
+.flip-card{
+    width:380px;
+    height:450px;
+    perspective:1000px;
+}
+
+.flip-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform 1s;
+    transform-style:preserve-3d;
+    text-align:center;
+}
+
+.flip-card.flipped .flip-inner{
+    transform:rotateY(180deg);
+}
+
+.card{
+    position:absolute;
+    width:100%;
+    height:100%;
+    backface-visibility:hidden;
+    border-radius:25px;
+    padding:40px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.4);
+}
+
+.front{
+    background:rgba(0,0,0,0.45);
+}
+
+.back{
+    background:rgba(255,255,255,0.18);
+    transform:rotateY(180deg);
+}
+
+h1{
+    font-size:2.6rem;
+    animation:glow 1.5s infinite alternate;
+}
+
+h2{
+    margin-top:15px;
+    color:#ffd700;
+}
+
+p{
+    margin:20px 0;
+    font-size:1.1rem;
+}
+
+button{
+    margin-top:30px;
+    padding:15px 35px;
+    border:none;
+    border-radius:40px;
+    font-size:1.1rem;
+    font-weight:bold;
+    background:linear-gradient(135deg,#ffd700,#ff5722);
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* CONFETTI */
+.confetti{
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    from{transform:translateY(-50px) rotate(0);}
+    to{transform:translateY(110vh) rotate(720deg);}
+}
+
+/* BALLOONS */
+.balloon{
+    position:absolute;
+    bottom:-150px;
+    width:60px;
+    height:80px;
+    border-radius:50%;
+    animation:float linear infinite;
+}
+
+.balloon::after{
+    content:"";
+    position:absolute;
+    width:2px;
+    height:40px;
+    background:white;
+    top:80px;
+    left:50%;
+}
+
+@keyframes float{
+    from{transform:translateY(0);}
+    to{transform:translateY(-120vh);}
+}
+
+@keyframes glow{
+    from{text-shadow:0 0 10px #fff;}
+    to{text-shadow:0 0 30px #ffeb3b;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 BACKGROUND MUSIC -->
+<audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+</audio>
+
+<!-- CARD -->
+<div class="flip-card" id="card">
+    <div class="flip-inner">
+
+        <!-- FRONT -->
+        <div class="card front">
+            <h1>🎁 Tap Me 🎁</h1>
+            <h2>A Surprise Awaits</h2>
+            <p>Someone special is about to be celebrated ✨</p>
+            <button onclick="startSurprise()">🎉 Open Surprise 🎉</button>
+        </div>
+
+        <!-- BACK -->
+        <div class="card back">
+            <h1>🎂 Happy Birthday My Dear Friend 🎂</h1>
+            <h2>10 January Star 🌟</h2>
+            <p>
+                Wishing you a day filled with happiness, laughter, and love ✨<br>
+                May all your dreams come true 💫
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function startSurprise(){
+    const card = document.getElementById("card");
+    const music = document.getElementById("bgMusic");
+
+    card.classList.add("flipped");
+
+    music.volume = 0.6;
+    music.play().catch(() => {
+        alert("Click once more to allow sound 🔊");
+    });
+
+    for(let i=0;i<120;i++) confetti();
+    for(let i=0;i<10;i++) balloon();
+}
+
+function confetti(){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*innerWidth+"px";
+    c.style.background=randomColor();
+    c.style.animationDuration=Math.random()*3+2+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+}
+
+function balloon(){
+    const b=document.createElement("div");
+    b.className="balloon";
+    b.style.left=Math.random()*innerWidth+"px";
+    b.style.background=randomColor();
+    b.style.animationDuration=Math.random()*4+5+"s";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),7000);
+}
+
+function randomColor(){
+    const colors=["#ff1744","#ffea00","#00e5ff","#76ff03","#e040fb"];
+    return colors[Math.floor(Math.random()*colors.length)];
+}
+</script>
+
+</body>
+</html>
